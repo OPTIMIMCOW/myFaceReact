@@ -13,7 +13,7 @@ export function PostsPage() {
 
     useEffect(() => {
         updateData("/posts")
-    }, []);
+    });
 
     if (!myData) {
         return <div>Waiting for data!</div>
@@ -27,8 +27,12 @@ export function PostsPage() {
                         <img className="post_img" alt={result.imageUrl}
                             src={result.imageUrl} />
 
-                        <button className='like' onClick={() => updateInformation(result.id)}>Like {result.likedBy.length}</button>
-                        <div className='dislike'>Disike {result.dislikedBy.length}</div>
+                        <button className='like' onClick={() => updateInformation(result.id, 'like')}>
+                            Like {result.likedBy.length}
+                        </button>
+                        <button className='dislike' onClick={() => updateInformation(result.id, 'dislike')}>
+                            Dislike {result.dislikedBy.length}
+                        </button>
                     </article>
                 )}
             </div>
@@ -37,17 +41,16 @@ export function PostsPage() {
         </div>
     );
 
-    function updateInformation(postId) {
-
+    function updateInformation(postId, action) {
+        
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'React POST Request Example' })
+            body: ''
         };
 
-        fetch(`http://localhost:3001/posts/:${postId}/like/`, requestOptions)
+        fetch(`http://localhost:3001/posts/${postId}/${action}/`, requestOptions)
             .then(() => updateData("/posts"));
-
 
     }
 
