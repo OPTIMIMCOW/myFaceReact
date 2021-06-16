@@ -1,0 +1,35 @@
+@import '../Constants.scss';
+
+.testButton {
+    @include like-button();
+
+}
+
+body {
+    background-color: $background-color;
+    width: 100vw;
+    display: flex;
+
+}
+
+.profileImage {
+    width: 100px;
+    border: $profile-img-border;
+    position:absolute;
+    top:$coverimage-height;
+    left: 250px;
+    border-radius: 50%;
+
+}
+
+.coverImage { 
+
+    width: 100vw;
+    height: $coverimage-height;
+    // margin-left: $margin;
+    // margin-right: $margin;
+}
+
+    
+
+

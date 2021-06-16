@@ -1,0 +1,27 @@
+$background-color: blue;
+$margin: 5vw;
+$text-padding-under-image: 3vw;
+$profile-img-border: solid 10px violet;
+$coverimage-height:500px;
+
+@mixin button($color: red,$anything:60px) {
+    width: fit-content;
+    font-size: $anything;
+    border: $profile-img-border;
+    background-color: $color;
+
+}
+
+@mixin like-button() {
+    
+    @include button(green);
+    font-size:24px;
+
+}
+
+@mixin navigation-button() {
+    
+    @include button(blue);
+    font-size:24px;
+
+}

@@ -1,3 +1,9 @@
+@import './Constants.scss';
+
+.testButton2 {
+  @include button();
+}
+
 .App {
   text-align: center;
 }

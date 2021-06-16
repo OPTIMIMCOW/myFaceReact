@@ -13,13 +13,12 @@ function App() {
                 <Route path="/posts">
                     <PostsPage />
                 </Route>
-                <Route path="/users/1">
+                <Route exact path="/users/:id">
                     <UserDetails />
                 </Route>
             </Switch>
+            <button className="testButton2">TestButtonImport</button>
         </Router>
-
-
     );
 }
 
