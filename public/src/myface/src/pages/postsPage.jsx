@@ -1,24 +1,35 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react'
 
-
-export function PostsPage(props) {
+export function PostsPage() {
 
     const [myData, setMyData] = useState(null);
     useEffect(() => {
         fetch("http://localhost:3001/posts")
             .then(response => response.json())
-            .then(response => setMyData(response.data))
-            .then (checkData(data));
-    }, [myData]);
+            .then(data => setMyData(data));
 
-    function checkData(myData) {
-        if (!myData) {
-            return <div>Waiting for data!</div>
-        }
-        return (
-            <div>Data recieved</div>
-        );
+    }, []);
+
+    if (!myData) {
+        return <div>Waiting for data!</div>
     }
+    return (
+        <div>
+        {myData.results.map(result =>
+            <article className="posts">
+                <div>{result.message}</div>
+                <img className="post_img" alt={result.imageUrl}
+                src={result.imageUrl}/>
+                <div className='liked'>Liked {result.likedBy.length}</div>
+                <div className='disliked'>Disiked {result.dislikedBy.length}</div>
+            </article>
+        )}
+        if 
+        <button>next</button>
+        </div>
+
+    );
+
 
 }
