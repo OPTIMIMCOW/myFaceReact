@@ -12,8 +12,6 @@ export function PostsPage() {
             .then(response => response.json())
             .then(data => setMyData(data));
 
-        console.log(window.location.search);
-        console.log(url);
         setMyURL(url);
     }
 
@@ -33,8 +31,8 @@ export function PostsPage() {
                         <img className="post_img" alt={result.imageUrl}
                             src={result.imageUrl} />
 
-                        <button className='like' onClick={() => updateDatabase(result.id)}>Like {result.likedBy.length}</button>
-                        <div className='dislike'>Disike {result.dislikedBy.length}</div>
+                        <button className='like' onClick={() => updateDatabase(result.id, "Like")}>Like {result.likedBy.length}</button>
+                        <button className='dislike' onClick={() => updateDatabase(result.id, "Dislike")}>Disike {result.dislikedBy.length}</button>
                     </article>
                 )}
             </div>
@@ -43,15 +41,14 @@ export function PostsPage() {
         </div>
     );
 
-    function updateDatabase(postId) {
+    function updateDatabase(postId,type) {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ postId: postId })
+            headers: { 'Accept': 'application/json' }
         };
 
-        fetch(`http://localhost:3001/posts/${postId}/like/`, requestOptions)
+        fetch(`http://localhost:3001/posts/${postId}/${type}/`, requestOptions)
             .then(() => updatePostData(currentURLQuery));
     }
 
