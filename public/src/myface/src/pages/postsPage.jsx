@@ -4,15 +4,21 @@ import { useEffect, useState } from 'react';
 export function PostsPage() {
 
     const [myData, setMyData] = useState(null);
+    const [currentURLQuery, setMyURL] = useState("/posts");
+    console.log(`updating ${currentURLQuery}`);
 
-    async function updateData(url) {
+    async function updatePostData(url) {
         await fetch(`http://localhost:3001${url}`)
             .then(response => response.json())
             .then(data => setMyData(data));
+
+        console.log(window.location.search);
+        console.log(url);
+        setMyURL(url);
     }
 
     useEffect(() => {
-        updateData("/posts")
+        updatePostData("/posts")
     }, []);
 
     if (!myData) {
@@ -27,7 +33,7 @@ export function PostsPage() {
                         <img className="post_img" alt={result.imageUrl}
                             src={result.imageUrl} />
 
-                        <button className='like' onClick={() => updateInformation(result.id)}>Like {result.likedBy.length}</button>
+                        <button className='like' onClick={() => updateDatabase(result.id)}>Like {result.likedBy.length}</button>
                         <div className='dislike'>Disike {result.dislikedBy.length}</div>
                     </article>
                 )}
@@ -37,24 +43,22 @@ export function PostsPage() {
         </div>
     );
 
-    function updateInformation(postId) {
+    function updateDatabase(postId) {
 
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'React POST Request Example' })
+            body: JSON.stringify({ postId: postId })
         };
 
-        fetch(`http://localhost:3001/posts/:${postId}/like/`, requestOptions)
-            .then(() => updateData("/posts"));
-
-
+        fetch(`http://localhost:3001/posts/${postId}/like/`, requestOptions)
+            .then(() => updatePostData(currentURLQuery));
     }
 
     function returnNavigation(param, buttonName) {
 
         if (param) {
-            return <button className="next" onClick={() => updateData(param)}>{buttonName}</button>
+            return <button className="next" onClick={() => updatePostData(param)}>{buttonName}</button>
         }
     }
 

@@ -32,6 +32,7 @@ router.post('/create/',
 router.post('/:postId/like/', async (request, response) => {
     const userId = 1; // For now, just assume that we are user 1
     const postId = parseInt(request.params.postId);
+
     const returnUrl = request.params?.returnUrl;
 
     await likePost(userId, postId);
