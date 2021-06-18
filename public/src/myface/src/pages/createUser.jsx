@@ -9,14 +9,9 @@ export function CreateUser() {
     const [email, setEmail] = useState(null);
     const [profileImageUrl, setProfileImgUrl] = useState(null);
     const [coverImageUrl, setCoverImgUrl] = useState(null);
-    const [errorsDetected, setErrorsDetected] = useState(null);
+    const [errorsDetected, setErrorsDetected] = useState([]);
 
-    const errors = [];
-
-    async function createUserInDatabase(event) {
-
-        event.preventDefault();
-
+    async function createUserInDatabase() {
         const requestOptions = {
             headers: {
                 'Accept': 'application/json',
@@ -25,18 +20,13 @@ export function CreateUser() {
             method: "POST",
             body: JSON.stringify({ name, username, email, profileImageUrl, coverImageUrl })
         };
-        if (validation()) {
-            await fetch(`http://localhost:3001/users/create/`, requestOptions)
-                .then(() => setUserCreated(true))
-                .then(() => console.log(userCreated));
-        }
-        else {
-            setErrorsDetected(true);
-            showErrors();
-        }
+
+        await fetch(`http://localhost:3001/users/create/`, requestOptions)
+            .then(() => setUserCreated(true))
+            .then(() => console.log(userCreated));
     }
 
-    function hideForm() {
+    function hideForm() {      
         if (userCreated)
             return <h1 className='success'>User Was Successfully Created</h1>;
         return (
@@ -71,47 +61,64 @@ export function CreateUser() {
                         onChange={e => setCoverImgUrl(e.target.value)} />
                 </label>
                 {/* <button type="submit" onClick={e => validation(e)}>Submit</button> */}
-                <button type="submit" onClick={createUserInDatabase}>Submit</button>
+                <button type="submit" onClick={(event) => validation(event)}>Submit</button>
             </form>
         );
     }
 
-    function validation() {
-
-        // event.preventDefault();
+    function validation(event) {
+        event.preventDefault();
+        const errors = [];
         const urlRegex = new RegExp(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`);
         const emailRegex = new RegExp("^[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+$")
 
+
+        
+
+        if (name === null || name === "") {
+            errors.push(`name must not be empty.`)
+        }
+
+        if (username === null || username === "") {
+            errors.push(`username must not be empty.`)
+        }
+
         if (email === null || email === "") {
-            errors.push(`Email must not be empty.`)
+            errors.push(`email must not be empty.`)
         }
         else {
-            errors.push(email.match(emailRegex) ? '' : 'Email must look like name.domain.com');
+            errors.push(email.match(emailRegex)===null ? '' : 'email must look like name.domain.com');
         }
 
         if (profileImageUrl === null || profileImageUrl === "") {
-            errors.push(`coverImageUrl must not be empty.`)
+            errors.push(`profileImageUrl must not be empty.`)
         }
         else {
-            errors.push(profileImageUrl.match(urlRegex) ? '' : 'profileImageUrl must start with http:// or https:/');
+            errors.push(profileImageUrl.match(urlRegex)===null ? '' : 'profileImageUrl must start with http:// or https:/');
         }
+
         if (coverImageUrl === null || coverImageUrl === "") {
             errors.push(`coverImageUrl must not be empty.`)
         }
         else {
-            errors.push(profileImageUrl.match(urlRegex) ? '' : 'profileImageUrl must start with http:// or https:/');
+            errors.push(coverImageUrl.match(urlRegex)===null ? '' : 'coverImageUrl must start with http:// or https:/');
         }
-        return (errors.length === 0);
 
+        if (errors.length === 0) {
+            createUserInDatabase();
+        } else {
+            setErrorsDetected(errors);
+        }
     }
 
     function showErrors() {
-
-        if (!validation()) {
+        console.log(errorsDetected);
+        if (errorsDetected.length !== 0) {
             return (
                 <div>
-                    {errors.forEach(error =>
-                        <p classname="error"> {error}</p>
+                    <h3 className="error">UNABLE TO SUBMIT:</h3>
+                    {errorsDetected.map(error =>
+                        <div className="error" >{error}</div>
                     )}
                 </div>
             );
@@ -123,10 +130,7 @@ export function CreateUser() {
             <h1 className='createUserHeader'>Create user</h1>
             {hideForm()}
             {showErrors()}
-
         </div >
     )
-
-
 
 }
