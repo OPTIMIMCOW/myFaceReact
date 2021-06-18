@@ -26,7 +26,7 @@ export function CreateUser() {
             .then(() => console.log(userCreated));
     }
 
-    function hideForm() {      
+    function hideForm() {
         if (userCreated)
             return <h1 className='success'>User Was Successfully Created</h1>;
         return (
@@ -69,11 +69,8 @@ export function CreateUser() {
     function validation(event) {
         event.preventDefault();
         const errors = [];
-        const urlRegex = new RegExp(`https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`);
-        const emailRegex = new RegExp("^[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+$")
-
-
-        
+        const urlRegex = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gm);
+        const emailRegex = new RegExp(/@([A-z0-9])+.[A-z]+\S[A-z]+/gm)
 
         if (name === null || name === "") {
             errors.push(`name must not be empty.`)
@@ -87,25 +84,32 @@ export function CreateUser() {
             errors.push(`email must not be empty.`)
         }
         else {
-            errors.push(email.match(emailRegex)===null ? '' : 'email must look like name.domain.com');
+            if (email.match(emailRegex) === null) {
+                errors.push('email must look like name.domain.com');
+            }
         }
 
         if (profileImageUrl === null || profileImageUrl === "") {
             errors.push(`profileImageUrl must not be empty.`)
         }
         else {
-            errors.push(profileImageUrl.match(urlRegex)===null ? '' : 'profileImageUrl must start with http:// or https:/');
+            if (profileImageUrl.match(urlRegex) === null) {
+                errors.push('profileImageUrl must start with http:// or https:/');
+            }
         }
 
         if (coverImageUrl === null || coverImageUrl === "") {
             errors.push(`coverImageUrl must not be empty.`)
         }
         else {
-            errors.push(coverImageUrl.match(urlRegex)===null ? '' : 'coverImageUrl must start with http:// or https:/');
+            if (coverImageUrl.match(urlRegex) === null) {
+                errors.push('coverImageUrl must start with http:// or https:/');
+            }
         }
 
         if (errors.length === 0) {
             createUserInDatabase();
+            setErrorsDetected(errors);
         } else {
             setErrorsDetected(errors);
         }
