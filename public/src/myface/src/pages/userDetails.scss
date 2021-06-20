@@ -1,14 +1,41 @@
 @import '../Constants.scss';
 
-.testButton {
-    @include like-button();
+body {
+    background-color: $background-color;
+    width: 90vw;
+    display: flex;
+    position: absolute center;
+    margin-left: 5vw;
 
 }
 
-body {
-    background-color: $background-color;
-    width: 100vw;
+.create-user {
+    width: 80vw;
+    // margin: 3%;
+    border: 10px solid darkblue;
+    position: relative;
+    color: $font-color;
     display: flex;
+    flex-direction: column;
+}
+
+.submit-button {
+    @include button($color, 24px);
+    margin-top: 20px;
+    align-items: center;
+}
+
+.input-box {
+    left: 5%;
+    margin-top: 10px;
+    padding-top: 20px;
+    flex-direction: row;
+   
+    
+}
+
+.testButton {
+    @include like-button();
 
 }
 
@@ -17,7 +44,7 @@ body {
     border: $profile-img-border;
     position:absolute;
     top:$coverimage-height;
-    left: 250px;
+    left: 100px;
     border-radius: 50%;
 
 }
@@ -31,5 +58,3 @@ body {
 }
 
     
-
-

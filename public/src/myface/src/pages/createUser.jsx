@@ -35,30 +35,30 @@ export function CreateUser() {
                     <img src={profileImageUrl} className="profileImage"></img>
                 </div>;
         return (
-            <form method="post" >
-                <label>
+            <form method="post" className="create-user" >
+                <label className='input-box'>
                     Name:
                     <input type="text" name="name" required alt="Please enter your name"
                         onChange={e => setName(e.target.value)} />
                 </label>
-                <label>
+                <label className='input-box'>
                     Username:
                     <input type="text" name="username" pattern="^\S+$" placeholder="UserName"
                         title="Do not enter whitespaces" alt="Please enter your username" required
                         onChange={e => setUsername(e.target.value)} />
                 </label>
-                <label>
+                <label className='input-box'>
                     Email:
                     <input type="email" name="email" alt="Please enter your your email address" required
                         onChange={e => setEmail(e.target.value)} />
                 </label>
-                <label>
+                <label className='input-box'>
                     ProfileImageUrl:
                     <input type="url" placeholder="https://" name="profileImageUrl"
                         alt="Please enter a url link to a valid profile image" required
                         onChange={e => setProfileImgUrl(e.target.value)} />
                 </label>
-                <label>
+                <label className='input-box'>
 
                     CoverImageUrl:
                     <input type="url" placeholder="https://" name="coverImageUrl"
@@ -66,7 +66,7 @@ export function CreateUser() {
                         onChange={e => setCoverImgUrl(e.target.value)} />
                 </label>
                 {/* <button type="submit" onClick={e => validation(e)}>Submit</button> */}
-                <button type="submit" onClick={(event) => validation(event)}>Submit</button>
+                <button type="submit" onClick={(event) => validation(event)} className='submit-button'>Submit</button>
             </form>
         );
     }
@@ -118,8 +118,7 @@ export function CreateUser() {
         }
 
         if (errors.length === 0) {
-            createUserInDatabase();
-            
+            createUserInDatabase();  
         }    
         
         setErrorsDetected(errors);
