@@ -69,8 +69,8 @@ export function CreateUser() {
     function validation(event) {
         event.preventDefault();
         const errors = [];
-        const urlRegex = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gm);
-        const emailRegex = new RegExp(/@([A-z0-9])+.[A-z]+\S[A-z]+/gm)
+        const urlRegex = new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]*/);
+        const emailRegex = new RegExp(/@([A-z0-9])+.[A-z]+\S[A-z]+/)
 
         if (name === null || name === "") {
             errors.push(`name must not be empty.`)
@@ -78,6 +78,11 @@ export function CreateUser() {
 
         if (username === null || username === "") {
             errors.push(`username must not be empty.`)
+        }
+        else {
+            if (username.match(/^[A-Za-z0-9_\-]+$/) === null) {
+                errors.push('username must contain lowcase letters and numbers only');
+            }
         }
 
         if (email === null || email === "") {
@@ -109,10 +114,10 @@ export function CreateUser() {
 
         if (errors.length === 0) {
             createUserInDatabase();
-            setErrorsDetected(errors);
-        } else {
-            setErrorsDetected(errors);
-        }
+            
+        }    
+        
+        setErrorsDetected(errors);
     }
 
     function showErrors() {

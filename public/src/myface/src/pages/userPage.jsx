@@ -30,7 +30,7 @@ export function UsersPage() {
             <div className="post-page">
                 {myData.results.map(result =>{
 
-                    return <div>name: {result.name}</div>
+                    return <div>name: {result.name} username: {result.username}</div>
                 }
                 )}
             </div>
