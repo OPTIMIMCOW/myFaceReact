@@ -65,7 +65,6 @@ export function CreateUser() {
                         alt="Please enter your a url link to a valid cover image" required
                         onChange={e => setCoverImgUrl(e.target.value)} />
                 </label>
-                {/* <button type="submit" onClick={e => validation(e)}>Submit</button> */}
                 <button type="submit" onClick={(event) => validation(event)} className='submit-button'>Submit</button>
             </form>
         );
