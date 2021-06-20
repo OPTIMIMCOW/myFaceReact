@@ -28,7 +28,12 @@ export function CreateUser() {
 
     function hideForm() {
         if (userCreated)
-            return <h1 className='success'>User Was Successfully Created</h1>;
+            return <div>
+                    <h1 className='success'>The next User Was Successfully Created</h1>
+                    <h2 className="user-name">{name} {username}</h2>
+                    <img src={coverImageUrl} className="coverImage"></img>
+                    <img src={profileImageUrl} className="profileImage"></img>
+                </div>;
         return (
             <form method="post" >
                 <label>
